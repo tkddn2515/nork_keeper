@@ -1,0 +1,23 @@
+.header {
+  border-bottom: 1px solid #707070;
+  margin: 0 140px;
+}
+
+.title {
+  display: inline-block;
+  font-size: 65px;
+  font-weight: 900;
+  margin-top: 70px;
+}
+
+.title_share {
+  margin-left: 17px;
+  content: url('../assets/img/share.png');
+  cursor: pointer;
+}
+
+.title_code {
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 19.5px;
+}

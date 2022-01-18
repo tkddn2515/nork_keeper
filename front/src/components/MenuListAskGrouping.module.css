@@ -1,0 +1,49 @@
+.container {
+  width: 260px;
+  height: 228px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+  background-color: #fff;
+}
+
+.img {
+  width: 39px;
+  height: 39px;
+  border: solid 3px #010826;
+  border-radius: 39px;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #010826;
+  text-align: center;
+  margin: 20px auto;
+  line-height: 33px;
+}
+
+.content {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #010826;
+}
+
+.btns {
+  height: 37px;
+  margin-top: 35px;
+  text-align: center;
+  margin-left: -17px;
+}
+
+.btn {
+  width: 102px;
+  height: 37px;
+  margin-left: 17px;
+  padding: 5px 35px;
+  border-radius: 19px;
+  border: solid 0.5px #c7c7c7;
+  background-color: #fff;
+
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-stretch: normal;
+  color: #959595;
+  cursor: pointer;
+}

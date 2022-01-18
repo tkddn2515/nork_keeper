@@ -1,0 +1,35 @@
+.container {
+  margin-left: 140px;
+}
+
+.toptime {
+  margin-top: 59px;
+}
+
+.createtime {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.download {
+  content: url("../assets/img/Down_icon.png");
+  margin-left: 11px;
+}
+
+.toptitle { 
+  margin-top: 14px;
+}
+
+.line {
+  width: 10px;
+  height: 32px;
+  background-color: #010826;
+  display: inline-block;
+}
+
+.title {
+  margin-left: 19px;
+  font-size: 4rem;
+  font-weight: 500;
+  display: inline-block;
+}

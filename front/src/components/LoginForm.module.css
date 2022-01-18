@@ -1,0 +1,64 @@
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  transition: 0.5s;
+}
+
+.aboutKeeper {
+  font-weight: 900;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  cursor: pointer;
+}
+
+.createCodeMessage {
+  white-space: pre-wrap;
+  font-size: 1.5rem;
+  font-weight: 100;
+  margin-bottom: 20px
+}
+
+.codeInput{
+  width: 260px;
+  height: 44px;
+  border: 1px solid rgb(109, 109, 109);
+  border-radius: 9px;
+  font-weight: 400;
+  font-size: 1.9rem;
+  padding: 7px 9px;
+  background: #ffffff00;
+  display: block;
+  margin: 0 auto;
+}
+
+
+.codeInput::placeholder {
+  color: #c7c7c7;
+}
+
+.btn{
+  display: block;
+  height: 44px;
+  background-color: white;
+  border-radius: 9px;
+  box-shadow: 5px 5px 10px 2px rgb(229 229 229);
+  line-height: 44px;
+  width: 260px;
+  margin: 10px auto 50px;
+  font-size: 2.3rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn_createcode {
+  font-size: 1.5rem;
+  font-weight: 100;
+  white-space: nowrap;
+  border-bottom: 1px solid black;
+  width: 92px;
+  height: 22px;
+  cursor: pointer;
+}

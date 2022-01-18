@@ -1,0 +1,20 @@
+.footer {
+  height: 99.5px;
+  margin: 0 140px;
+  border-top: 1px solid #707070;
+  color: black;
+}
+
+.title {
+  margin-top: 45.5px;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.mail {
+  margin-left: 79px;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 300;
+}

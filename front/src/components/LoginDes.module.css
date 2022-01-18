@@ -1,0 +1,158 @@
+.about {
+  display: none;
+  margin-top: 100vh;
+  transition: 0.5s;
+}
+
+/* 1. Des */
+.des_form {
+  position: relative;
+  overflow:auto; 
+}
+
+.des_back {
+  width: 100%;
+  content:url("../assets/img/login_des_back.jpg");
+}
+
+.des_front {
+  position: absolute;
+  width: 100%;
+  content:url("../assets/img/login_des_front.png");
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.des_text_title {
+  font-size: 5.2rem;
+  font-weight: 900;
+  color: white;
+}
+
+.des_text_content {
+  font-size: 2.7rem;
+  font-weight: 500;
+  margin-top: 60px;
+  color: white;
+}
+
+/* 2. Promise */
+.promise_form {
+  position: relative;
+  overflow:auto; 
+}
+
+.promise_back {
+  width: 100%;
+  content:url("../assets/img/login_promise.jpg");
+  /* position: absolute;
+  background-image: url('../assets/img/login_promise.jpg');
+  width: 100%;
+  height: 100%;
+  background-position: center bottom;
+  background-size: 100%; */
+}
+
+.promise_center {
+  width: 100%;
+}
+
+.promise_title {
+  color: white;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.promise_contents {
+  /* margin-top: 100%; */
+}
+
+.promise_content {
+  display: inline-block;
+  border-top: 1px solid #010826;
+  padding-top: 26px;
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+.promise_contents div:nth-child(2) {
+  /* margin-left: 292px;
+  margin-right: 292px; */
+}
+
+/* 3. Use Case */
+.usecase_form {
+  text-align: center;
+}
+
+.usecase_title {
+  margin-top: 200px;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.usecase_content {
+  margin-top: 170px;
+}
+
+.usecase_content_title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.usecase_content_des {
+  margin-top: 10px;
+  font-size: 2.5rem;
+  font-weight: normal;
+}
+
+.usecase_content_imgs {
+  margin-top: 50px;
+}
+
+.usecase_content_imgs img {
+  background-position: center bottom;
+  margin: 0 8px;
+}
+
+.start_form {
+  position: relative;
+  margin-top: 597px;
+}
+
+/* 4. Start */
+.start_line {
+  background-color: #010826;
+  height: 1px;
+}
+
+.start_title {
+  font-size: 3rem;
+  font-weight: bold;
+  background-color: white;
+  padding-left: 41px;
+  padding-right: 41px;
+}
+
+/* 5. Footer */
+footer {
+  position: relative;
+  height: 257px;
+}
+
+.footer_title {
+  position: absolute;
+  font-size: 1.8rem;
+  font-weight: 500;
+  left: 140px;
+  bottom: 50px;
+}
+
+.footer_content {
+  position: absolute;
+  font-size: 1.8rem;
+  font-weight: 300;
+  left: 278px;
+  bottom: 50px;
+}

@@ -1,0 +1,11 @@
+.container {
+  min-width: 48px;
+  margin: 11px 5px 120px 0;
+  padding: 2px 12px 4px;
+  border-radius: 12px;
+  border: solid 1px #707070;
+
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: #000;
+}

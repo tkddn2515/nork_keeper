@@ -1,0 +1,36 @@
+.container {
+  min-height: 744px;
+  margin: 0 140px;
+}
+
+.menu {
+  margin-top: 30px;
+  font-size: 17px;
+  font-weight: 300;
+  text-align: right;
+}
+
+.menu_young {
+  margin-left: 40px;
+  cursor: pointer;
+}
+
+.menu_old {
+  margin-left: 40px;
+  cursor: pointer;
+}
+
+.menu_date {
+  content: url('../assets/img/Date_icon.png');
+  margin-left: 40px;
+  margin-right: 23px;
+  cursor: pointer;
+}
+
+.items {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 536px);
+  justify-content: space-around;
+  gap: 120px 16px;
+}

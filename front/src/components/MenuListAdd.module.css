@@ -1,0 +1,14 @@
+.add {
+
+}
+
+.add_img {
+  content: url('../assets/img/Add_icon.png');
+}
+
+.add_text {
+  font-size: 24px;
+  font-weight: 300;
+  color: #959595;
+  margin-top: 20px;
+}
