@@ -1,9 +1,11 @@
 const express = require("express");
 const cors = require('cors');
 const mysql      = require('mysql2');
+const multer = require('multer');
 
-const { sql_login, sql_join, sql_get_containers} = require('./query');
+const { sql_login, sql_join, sql_get_containers, sql_insert_containers } = require('./query');
 const { dataBase } = require('./db');
+const { upload } = require('./s3-upload');
 
 const db = mysql.createConnection(dataBase);
 db.connect();
@@ -19,6 +21,8 @@ app.use(express.urlencoded({ extended: true}));
 app.use(cors());
 
 const port = 20000;
+
+const s3 = multer();
 
 // 로그인
 app.get("/member/login", (req, res) => {
@@ -47,6 +51,24 @@ app.get("/container", (req, res) => {
     res.json(results);
   })
 })
+
+// 이미지 메인화면에 추가
+app.post("/main/dropimage", s3.array('files'), async (req, res) => {
+  const data = await upload(req.body.mid, req.files);
+  res.send(data);
+})
+
+app.post("/container", (req, res) => {
+  const { mid, files } = req.body;
+  console.log(mid, files);
+  db.query(sql_insert_containers, [mid, files[0], files.join(',')], (err, results, fields) => {
+    if (err) { res.send('[]'); console.log("err", err); return; }
+    console.log("success", results);
+    res.json(results);
+  })
+});
+
+
 
 //port에 접속 성공하면 콜백 함수를 실행시킨다.
 app.listen(port, () => {

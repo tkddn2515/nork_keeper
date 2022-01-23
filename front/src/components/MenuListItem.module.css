@@ -43,3 +43,10 @@
   color: #000;
   margin-bottom: 11px;
 }
+
+.tags{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48px, auto));
+  justify-content: space-around;
+  gap: 7px 7px;
+}

@@ -8,15 +8,12 @@ import { get, post } from '../api/axios';
 import { SET_CONTAINERS } from '../store';
 import { useNavigate } from 'react-router';
 
-const MainList = ({ member, containers, setContainers }) => {
+const MainList = ({ member, containers, showAskGrouping, setContainers, uploadContainer }) => {
 
   const navigate = useNavigate();
 
-  const [showAdd, setShowAdd] = useState(false);
-  const [showAskGrouping, setShowAskGrouping] = useState(false);
-
   useEffect(() => {
-    if(member.id == -1) {
+    if(member.id === -1) {
       navigate("/");
     }
 
@@ -33,6 +30,7 @@ const MainList = ({ member, containers, setContainers }) => {
   
   return (
     <>
+    
     <div className={styles.container}>
       <div className={styles.menu}>
         <span className={styles.menu_young}>최신순</span>
@@ -42,23 +40,25 @@ const MainList = ({ member, containers, setContainers }) => {
       <div className={styles.items}>
         {containers.length > 0 && containers.map((v, idx) => <MenuListItem key={v.id} container={v}/>)}
       </div>
-      { showAdd && <MenuListAdd /> }
-      { showAskGrouping && <MenuListAskGrouping /> }
+      { containers.length === 0 && <MenuListAdd /> }
+      { showAskGrouping && <MenuListAskGrouping uploadContainer={uploadContainer}/> }
     </div>
     </>
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     member: state.member,
-    containers: state.containers
+    containers: state.containers,
+    showAskGrouping: ownProps.showAskGrouping
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     setContainers: data => dispatch(SET_CONTAINERS(data)),
+    uploadContainer: ownProps.uploadContainer
   }
 }
 

@@ -10,8 +10,6 @@ import Main from './pages/Main';
 import Detail from './pages/Detail';
 import NotFoundPage from './pages/NotFoundPage';
 
-import Test from './pages/Test';
-
 function App() {
   return (
     <BrowserRouter>
@@ -24,7 +22,6 @@ function App() {
         <Route path="/Main" element={<Main />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/Detail" element={<Detail />} />
-        <Route path="/Test" element={<Test />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
