@@ -7,7 +7,8 @@ const MenuListItem = memo(({container}) => {
 
   const getImagePath = (name, type) => {
     let arr = name.split(".");
-    return `https://nork.kr.object.ncloudstorage.com/keeper/member/${store.getState().member.id}/${arr[0]}_${type}.${arr[1]}`;
+    //return `https://nork.kr.object.ncloudstorage.com/keeper/member/${store.getState().member.id}/${arr[0]}_${type}.${arr[1]}`;
+    return `../iu.jpg`;
   }
 
   return (

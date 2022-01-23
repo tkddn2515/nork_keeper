@@ -21,10 +21,18 @@
   cursor: pointer;
 }
 
-.menu_date {
-  content: url('../assets/img/Date_icon.png');
+.select {
+  font-weight: bold;
+}
+
+.menu_date_container {
   margin-left: 40px;
   margin-right: 23px;
+  position: relative;
+}
+
+.menu_date {
+  content: url('../assets/img/Date_icon.png');
   cursor: pointer;
 }
 
@@ -34,4 +42,37 @@
   grid-template-columns: repeat(auto-fill, 536px);
   justify-content: space-around;
   gap: 120px 16px;
+}
+
+.prevBtn {
+  content: url("../assets/img/Before_button.png");
+  margin-left: 40px;
+  cursor: pointer;
+}
+
+.nextBtn {
+  content: url("../assets/img/Before_button.png");
+  transform: rotate(0.5turn);
+  margin-left: 40px;
+  cursor: pointer;
+}
+
+.pages {
+  text-align: center;
+  margin-right: 40px;
+  margin-bottom: 130px;
+  margin-top: 191px;
+}
+
+.page {
+  font-size: 1.8rem;
+  font-weight: 500;
+  display: inline-block;
+  cursor: pointer;
+  color: #959595;
+  margin-left: 40px;
+}
+
+.selectPage {
+  color: #000;
 }

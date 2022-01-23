@@ -3,7 +3,7 @@ const cors = require('cors');
 const mysql      = require('mysql2');
 const multer = require('multer');
 
-const { sql_login, sql_join, sql_get_containers, sql_insert_containers } = require('./query');
+const { sql_login, sql_join, sql_get_containers_count, sql_insert_containers } = require('./query');
 const { dataBase } = require('./db');
 const { upload } = require('./s3-upload');
 
@@ -45,10 +45,35 @@ app.post("/member/join", (req, res) => {
 })
 
 // 멤버 컨테이너 모두 받아오기
-app.get("/container", (req, res) => {
-  db.query(sql_get_containers, [req.query.id], (err, results, fields) => {
-    if (err) { res.send('[]'); return; }
-    res.json(results);
+app.get("/container", async (req, res) => {
+  const { id, page, limit, sort, term } = req.query;
+  if(id == -1) {
+    return;
+  }
+
+  const data = {}
+  db.query(sql_get_containers_count, [id], (err, results, fields) => {
+    if (err) { console.log(err); res.send('[]'); return; }
+    data.count = results[0].count;
+
+    let sql_get_containers = `SELECT * FROM container WHERE mid = ?`;
+    if(term){
+      const terms = term.split(',');
+      sql_get_containers = `${sql_get_containers} and createtime BETWEEN '${terms[0]} 00:00:00' and '${terms[1]} 23:59:59'`;
+    }
+    sql_get_containers = `${sql_get_containers} ORDER BY ID`;
+    console.log(sort);
+    if(sort === '0') {
+      console.log('desc');
+      sql_get_containers = `${sql_get_containers} desc`;
+    }
+    sql_get_containers = `${sql_get_containers} limit ?, ?`;
+    console.log(sql_get_containers);
+    db.query(sql_get_containers, [id, (page - 1) * limit, Number(limit)], (err, results, fields) => {
+      if (err) { return; }
+      data.results = results;
+      res.json(data);
+    })
   })
 })
 
@@ -58,6 +83,7 @@ app.post("/main/dropimage", s3.array('files'), async (req, res) => {
   res.send(data);
 })
 
+// 멤버 컨테이너 추가
 app.post("/container", (req, res) => {
   const { mid, files } = req.body;
   console.log(mid, files);
@@ -67,8 +93,6 @@ app.post("/container", (req, res) => {
     res.json(results);
   })
 });
-
-
 
 //port에 접속 성공하면 콜백 함수를 실행시킨다.
 app.listen(port, () => {
