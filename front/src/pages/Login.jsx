@@ -1,8 +1,8 @@
 import React, { memo, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import LoginDes from '../components/LoginDes';
-import LoginForm from '../components/LoginForm';
+import LoginDes from '../components/Login/LoginDes';
+import LoginForm from '../components/Login/LoginForm';
 
 const Login = memo(({ member }) => {
   const [loginAbout, setLoginAbount] = useState(false);
@@ -10,7 +10,6 @@ const Login = memo(({ member }) => {
 
   useEffect(() => {
     if(member.id >= 0) {
-      console.log('로그인이다.');
       navigate("/main");
     }
   }, [member])

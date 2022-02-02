@@ -2,10 +2,10 @@ import React, { memo, useCallback, useEffect, useState } from 'react';
 import styles from './Main.module.css';
 import store from '../store';
 import { post } from '../api/axios';
-import MainDrop from '../components/MainDrop';
-import MainHeader from '../components/MainHeader';
-import MainList from '../components/MainList';
-import MainFooter from '../components/MainFooter';
+import MainDrop from '../components/Main/MainDrop';
+import MainHeader from '../components/Main/MainHeader';
+import MainList from '../components/Main/MainList';
+import MainFooter from '../components/Main/MainFooter';
 import { ADD_CONTAINERS } from '../store';
 
 const Main = () => {

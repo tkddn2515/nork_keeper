@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import store, { Term_CONTAINERS } from '../store';
+import store, { Term_CONTAINERS } from '../../store';
 
 import styles from './MainListDate.module.css';
 

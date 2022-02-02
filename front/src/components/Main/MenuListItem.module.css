@@ -1,6 +1,6 @@
 .container {
   width: 536px;
-  height: 465px;
+  min-height: 467px;
 }
 
 .thumbnail_container {
@@ -8,6 +8,7 @@
   height: 357px;
   position: relative;
   /* background-color: whitesmoke; */
+  cursor: pointer;
 }
 
 .thumbnail_back {
@@ -32,21 +33,31 @@
 }
 
 .download {
-  content: url("../assets/img/Down_icon.png");
+  content: url("../../assets/img/Down_icon.png");
   cursor: pointer;
   margin-left: 10px;
 }
 
 .title {
-  font-size: 24px;
+  font-size: 2.4rem;
   font-weight: 500;
   color: #000;
   margin-bottom: 11px;
+  display: block;
+  width: 100%;
+}
+
+.title::placeholder {
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: #959595;
 }
 
 .tags{
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(48px, auto));
-  justify-content: space-around;
-  gap: 7px 7px;
+  
+}
+
+.tagPlus {
+  background-color: white;
+  cursor: pointer;
 }

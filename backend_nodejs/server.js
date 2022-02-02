@@ -3,7 +3,7 @@ const cors = require('cors');
 const mysql      = require('mysql2');
 const multer = require('multer');
 
-const { sql_login, sql_join, sql_get_containers_count, sql_insert_containers } = require('./query');
+const { sql_login, sql_join, sql_get_containers_count, sql_insert_containers, sql_get_tags, sql_change_container_name, sql_change_container_tag, sql_insert_tag } = require('./query');
 const { dataBase } = require('./db');
 const { upload } = require('./s3-upload');
 
@@ -46,14 +46,14 @@ app.post("/member/join", (req, res) => {
 
 // 멤버 컨테이너 모두 받아오기
 app.get("/container", async (req, res) => {
-  const { id, page, limit, sort, term } = req.query;
+  const { id, page, limit, sort, term, tag } = req.query;
   if(id == -1) {
     return;
   }
-
+  console.log("container", req.query);
   const data = {}
   db.query(sql_get_containers_count, [id], (err, results, fields) => {
-    if (err) { console.log(err); res.send('[]'); return; }
+    if (err) { res.send('[]'); return; }
     data.count = results[0].count;
 
     let sql_get_containers = `SELECT * FROM container WHERE mid = ?`;
@@ -61,10 +61,21 @@ app.get("/container", async (req, res) => {
       const terms = term.split(',');
       sql_get_containers = `${sql_get_containers} and createtime BETWEEN '${terms[0]} 00:00:00' and '${terms[1]} 23:59:59'`;
     }
+    if(tag) {
+      const tags = tag.split(',¡¿');
+      let orTags = "";
+      tags.forEach((v, idx) => {
+        if(idx === 0) {
+          orTags = `tags LIKE '%${v}%'`;
+        } else {
+          orTags = `${orTags} or tags LIKE '%${v}%'`;
+        }
+      })
+      sql_get_containers = `${sql_get_containers} and (${orTags})`;
+    }
+    
     sql_get_containers = `${sql_get_containers} ORDER BY ID`;
-    console.log(sort);
     if(sort === '0') {
-      console.log('desc');
       sql_get_containers = `${sql_get_containers} desc`;
     }
     sql_get_containers = `${sql_get_containers} limit ?, ?`;
@@ -77,6 +88,20 @@ app.get("/container", async (req, res) => {
   })
 })
 
+// 멤버 태그 모두 받아오기
+app.get("/tag", async (req, res) => {
+  const { mid } = req.query;
+  if(mid == -1) {
+    return;
+  }
+
+  db.query(sql_get_tags, [mid], (err, results, fields) => {
+    if (err) { res.send('[]'); return; }
+    res.json(results);
+  })
+})
+
+
 // 이미지 메인화면에 추가
 app.post("/main/dropimage", s3.array('files'), async (req, res) => {
   const data = await upload(req.body.mid, req.files);
@@ -86,13 +111,67 @@ app.post("/main/dropimage", s3.array('files'), async (req, res) => {
 // 멤버 컨테이너 추가
 app.post("/container", (req, res) => {
   const { mid, files } = req.body;
-  console.log(mid, files);
   db.query(sql_insert_containers, [mid, files[0], files.join(',')], (err, results, fields) => {
-    if (err) { res.send('[]'); console.log("err", err); return; }
-    console.log("success", results);
+    if (err) { res.send('[]'); return; }
     res.json(results);
   })
 });
+
+// 컨테이너 이름 변경
+app.patch("/container/name", (req, res) => {
+  const { id, name } = req.body;
+  console.log("req.body", req.body);
+  db.query(sql_change_container_name, [name, id], (err, results, fields) => {
+    if (err) { console.log("err", err); return; }
+    console.log("results", results);
+    res.json(results);
+  })
+})
+
+// 컨테이너 태그 변경
+app.patch("/container/tags", (req, res) => {
+  const { id, mid, tags } = req.body;
+  console.log("req.body", req.body);
+  db.query(sql_change_container_tag, [tags, id], (err, results, fields) => {
+    if (err) { console.log("err", err); return; }
+    console.log("results", results);
+    const tagsJoin = tags.split(',');
+    let value = tagsJoin[tagsJoin.length - 1];
+    console.log("value", value);
+    db.query(sql_insert_tag, [mid, value], (err, results, fields) => {
+      if (err) { console.log("err", err); return; }
+      console.log("results", results);
+      res.send(true);
+    })
+  })
+
+  
+})
+
+
+app.get("/test", (req, res) => {
+  const sql = `SELECT * FROM container`;
+  db.query(sql, [], (err, results, fields) => {
+    if (err) { res.send('[]'); return; }
+    results.forEach((v, idx) => {
+      const t = getTime(idx);
+      const sql2 = `UPDATE container SET createtime = ? WHERE id = ${v.id}`;
+      db.query(sql2, [t]);
+    })
+  })
+});
+
+const getTime = (addDay) => {
+  let today = new Date();
+  today.setDate(today.getDate() + addDay);
+  const year = today.getFullYear().toString().padStart(4,'0');
+  const month = (today.getMonth() + 1).toString().padStart(2,'0');
+  const date = today.getDate().toString().padStart(2,'0');
+  const hour = today.getHours().toString().padStart(2,'0');
+  const minute = today.getMinutes().toString().padStart(2,'0');
+  const second = today.getSeconds().toString().padStart(2,'0');
+  return `${year}-${month}-${date} ${hour}:${minute}:${second}`;
+}
 
 //port에 접속 성공하면 콜백 함수를 실행시킨다.
 app.listen(port, () => {

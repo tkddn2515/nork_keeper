@@ -1,5 +1,4 @@
 .container {
-  min-height: 744px;
   margin: 0 140px;
 }
 
@@ -32,7 +31,7 @@
 }
 
 .menu_date {
-  content: url('../assets/img/Date_icon.png');
+  content: url('../../assets/img/Date_icon.png');
   cursor: pointer;
 }
 
@@ -45,13 +44,13 @@
 }
 
 .prevBtn {
-  content: url("../assets/img/Before_button.png");
+  content: url("../../assets/img/Before_button.png");
   margin-left: 40px;
   cursor: pointer;
 }
 
 .nextBtn {
-  content: url("../assets/img/Before_button.png");
+  content: url("../../assets/img/Before_button.png");
   transform: rotate(0.5turn);
   margin-left: 40px;
   cursor: pointer;

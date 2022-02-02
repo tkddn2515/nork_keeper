@@ -1,6 +1,6 @@
 import React, { memo, useState, useRef, useEffect, useCallback } from 'react'
 import styles from './LoginDes.module.css';
-import store from '../store';
+import store from '../../store';
 
 const LoginDes = memo(({loginAbout})=> {
 

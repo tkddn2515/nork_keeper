@@ -1,7 +1,7 @@
 import React, { memo, useState, useRef, useMemo } from 'react'
 import styles from './LoginForm.module.css';
-import { SET_MEMBER } from '../store';
-import { get, post } from '../api/axios';
+import { SET_MEMBER } from '../../store';
+import { get, post } from '../../api/axios';
 import { connect } from 'react-redux';
 
 const PageType = {

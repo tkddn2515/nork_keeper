@@ -16,7 +16,7 @@ const upload = async (mid, files) => {
   const now = getTime();
   const res = [];
   let idx = 0;
-  for await (const v of files){
+  for await (const v of files){ 
 
     let buf = null;
     let fm = format(v.mimetype);

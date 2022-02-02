@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import {useDropzone} from 'react-dropzone'
 import styles from './MainDrop.module.css';
-import { post } from '../api/axios';
-import store from '../store';
+import { post } from '../../api/axios';
+import store from '../../store';
 
 const MainDrop = ({ setFiles, setShowAskGrouping, uploadContainer}) => {
   

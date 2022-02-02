@@ -5,7 +5,6 @@ const baseUrl_dev = 'http://localhost:20000';
 
 
 export const get = async (url, data) => {
-  console.log(data);
   // const req = await axios.get(`${baseUrl_dev}${url}/${data.join('/')}`);
   const req = await axios.get(baseUrl_dev + url, {params: data});
   return req.data;
@@ -13,5 +12,10 @@ export const get = async (url, data) => {
 
 export const post = async (url, data) => {
   const req = await axios.post(baseUrl_dev + url, data);
+  return req.data;
+}
+
+export const patch = async (url, data) => {
+  const req = await axios.patch(baseUrl_dev + url, data);
   return req.data;
 }

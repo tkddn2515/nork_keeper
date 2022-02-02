@@ -12,13 +12,13 @@
 
 .des_back {
   width: 100%;
-  content:url("../assets/img/login_des_back.jpg");
+  content:url("../../assets/img/login_des_back.jpg");
 }
 
 .des_front {
   position: absolute;
   width: 100%;
-  content:url("../assets/img/login_des_front.png");
+  content:url("../../assets/img/login_des_front.png");
   left: 0;
   top: 50%;
   transform: translate(0, -50%);
@@ -45,7 +45,7 @@
 
 .promise_back {
   width: 100%;
-  content:url("../assets/img/login_promise.jpg");
+  content:url("../../assets/img/login_promise.jpg");
   /* position: absolute;
   background-image: url('../assets/img/login_promise.jpg');
   width: 100%;

@@ -4,8 +4,8 @@ import styles from './MainList.module.css';
 import MenuListAdd from './MenuListAdd';
 import MenuListAskGrouping from './MenuListAskGrouping';
 import MenuListItem from './MenuListItem';
-import { get, post } from '../api/axios';
-import store, { SET_CONTAINERS, SORT_CONTAINERS, PAGE_CONTAINERS } from '../store';
+import { get, post } from '../../api/axios';
+import store, { SET_CONTAINERS, SORT_CONTAINERS, PAGE_CONTAINERS } from '../../store';
 import { useNavigate } from 'react-router';
 import MainListDate from './MainListDate';
 
@@ -21,21 +21,20 @@ const MainList = ({ member, containers, containersSetting, showAskGrouping, setC
     }
 
     getContainers();
-  }, [containersSetting.page, containersSetting.total, containersSetting.sort, containersSetting.term, containersSetting.limit])
+  }, [containersSetting.page, containersSetting.total, containersSetting.sort, containersSetting.term, containersSetting.limit, containersSetting.tag])
 
   const getContainers = async () => {
     if(member.id === -1) {
       return;
     }
 
-    console.log("getContainers");
-
     const data = {
       id: member.id,
       page: containersSetting.page,
       limit: containersSetting.limit,
       sort: containersSetting.sort,
-      term: containersSetting.term.join(',')
+      term: containersSetting.term.join(','),
+      tag: containersSetting.tag.join(',¡¿'),
     }
     const res = await get("/container", data);
     setContainers(res);
