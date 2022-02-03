@@ -104,7 +104,9 @@
   width: 122px;
   height: 82px;
   margin-left: 16px;
+  margin-bottom: 16px;
   opacity: 0.5;
+  cursor: pointer;
 }
 
 .imgSelect {
@@ -113,14 +115,14 @@
 
 .imgAdd {
   position: relative;
-  vertical-align: middle;
+  vertical-align: top;
   margin-left: 16px;
 }
 
 .inputdiv {
   background-image: url("../assets/img/Addimage_icon.png");
   width: 122px;
-  height: 80px;
+  height: 82px;
 }
 
 .dragDes {
@@ -129,4 +131,9 @@
   font-weight: 100;
   display: inline-block;
   margin-top: 25px;
+}
+
+.tagPlus {
+  background-color: white;
+  cursor: pointer;
 }

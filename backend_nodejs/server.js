@@ -3,7 +3,7 @@ const cors = require('cors');
 const mysql      = require('mysql2');
 const multer = require('multer');
 
-const { sql_login, sql_join, sql_get_containers_count, sql_insert_containers, sql_get_tags, sql_change_container_name, sql_change_container_tag, sql_insert_tag } = require('./query');
+const { sql_login, sql_join, sql_get_containers_count, sql_insert_containers, sql_get_tags, sql_change_container_name, sql_change_container_tag, sql_insert_tag, sql_change_container_concept, sql_change_container_img } = require('./query');
 const { dataBase } = require('./db');
 const { upload } = require('./s3-upload');
 
@@ -104,7 +104,13 @@ app.get("/tag", async (req, res) => {
 
 // 이미지 메인화면에 추가
 app.post("/main/dropimage", s3.array('files'), async (req, res) => {
-  const data = await upload(req.body.mid, req.files);
+  const data = await upload(req.body.mid, req.files, true);
+  res.send(data);
+})
+
+// 이미지 상세화면에 추가
+app.post("/detail/dropimage", s3.array('files'), async (req, res) => {
+  const data = await upload(req.body.mid, req.files, false);
   res.send(data);
 })
 
@@ -144,10 +150,27 @@ app.patch("/container/tags", (req, res) => {
       res.send(true);
     })
   })
-
-  
 })
 
+// 컨테이너 내용 변경
+app.patch("/container/concept", (req, res) => {
+  const { id, concept } = req.body;
+  console.log("req.body", req.body);
+  db.query(sql_change_container_concept, [concept, id], (err, results, fields) => {
+    if (err) { console.log("err", err); return; }
+  })
+})
+
+// 컨테이너 이미지 변경
+app.patch("/container/imgs", (req, res) => {
+  const { id, imgs } = req.body;
+  console.log("req.body", req.body);
+  db.query(sql_change_container_img, [imgs.join(','), id], (err, results, fields) => {
+    if (err) { console.log("err", err); return; }
+    console.log("success", results);
+    res.send("success");
+  })
+})
 
 app.get("/test", (req, res) => {
   const sql = `SELECT * FROM container`;

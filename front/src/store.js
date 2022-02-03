@@ -17,6 +17,7 @@ const initialState = {
     total: 0,
     tag: []
   },
+  selectContainer: {},
 }
 
 const slice = createSlice({
@@ -61,17 +62,11 @@ const slice = createSlice({
     },
     PAGE_CONTAINERS: (state, action) => { return { ...state, containersSetting: { ...state.containersSetting, page: action.payload } } },
     Term_CONTAINERS: (state, action) => { return { ...state, containersSetting: { ...state.containersSetting, term: action.payload } } },
-    Tag_CONTAINERS: (state, action) => { return {...state, containersSetting: { ...state.containersSetting, tag: action.payload } } }
+    Tag_CONTAINERS: (state, action) => { return {...state, containersSetting: { ...state.containersSetting, tag: action.payload } } },
+    SELECT_CONTAINER: (state, action) => { return {...state, selectContainer: action.payload }},
   },
 })
 
-export const { SET_MEMBER, SET_CONTAINERS, ADD_CONTAINERS, SORT_CONTAINERS, PAGE_CONTAINERS, Term_CONTAINERS, SET_CONTAINERS_DIRECT, SET_TAGS, Tag_CONTAINERS } = slice.actions;
+export const { SET_MEMBER, SET_CONTAINERS, ADD_CONTAINERS, SORT_CONTAINERS, PAGE_CONTAINERS, Term_CONTAINERS, SET_CONTAINERS_DIRECT, SET_TAGS, Tag_CONTAINERS, SELECT_CONTAINER } = slice.actions;
 
 export default configureStore({ reducer: slice.reducer });
-
-// {...state.containers.map(v => {
-//   if(v.id === action.payload.id) {
-//     v.tags = action.payload.tags;
-//   }
-//   return v;
-// }) }

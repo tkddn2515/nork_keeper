@@ -12,19 +12,18 @@ const s3 = new AWS.S3({
     region : 'kr-standard'
 });
 
-const upload = async (mid, files) => {
+const upload = async (mid, files, isMain) => {
   const now = getTime();
   const res = [];
   let idx = 0;
   for await (const v of files){ 
-
     let buf = null;
     let fm = format(v.mimetype);
     let name = ``;
     const origin_buf_length = v.buffer.length; // 원본 크기
     const pad = idx.toString().padStart(3,'0'); // 3의 길이에서 string의 부족한 길이만큼 0으로 채운다
     const ext = path.extname(v.originalname); // 확장자
-    const count = idx === 0 ? 3 : 2; // 첫번째 이미지면 썸네일도 필요하기 때문에 3번째를 썸네일로 사용
+    const count = isMain ? (idx === 0 ? 3 : 2) : 2; // 첫번째 이미지면 썸네일도 필요하기 때문에 3번째를 썸네일로 사용
     res.push(`${now}_${pad}${ext}`);
     for(let i = 0; i < count; i++){
       // 이름은 종류별로
@@ -57,7 +56,7 @@ const upload = async (mid, files) => {
           if(err) {
               console.log('err', err);
           }
-          console.log('success', data);
+          // console.log('success', data);
       });
     }
 

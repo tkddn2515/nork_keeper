@@ -6,6 +6,8 @@ const sql_get_containers_count = `SELECT count(*) as count FROM container WHERE 
 const sql_insert_containers = `INSERT INTO container(mid, name,thumb, imgs, tags) VALUES (?, '', ?, ?, '')`;
 const sql_change_container_name = `UPDATE container SET name = ? WHERE id = ?`;
 const sql_change_container_tag = `UPDATE container SET tags = ? WHERE id = ?`;
+const sql_change_container_concept = `UPDATE container SET concept = ? WHERE id = ?`;
+const sql_change_container_img = `UPDATE container SET imgs = ? WHERE id = ?`;
 const sql_insert_tag = `INSERT IGNORE INTO tag (mid, name) VALUES (?, ?);`
 
-module.exports = { sql_login, sql_join, sql_get_containers, sql_get_tags, sql_insert_containers, sql_get_containers_count, sql_change_container_name, sql_change_container_tag, sql_insert_tag };
+module.exports = { sql_login, sql_join, sql_get_containers, sql_get_tags, sql_insert_containers, sql_get_containers_count, sql_change_container_name, sql_change_container_tag, sql_insert_tag, sql_change_container_concept, sql_change_container_img };

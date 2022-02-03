@@ -1,12 +1,15 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
-import store, { SET_CONTAINERS_DIRECT, SET_TAGS } from '../../store';
+import store, { SET_CONTAINERS_DIRECT, SET_TAGS, SELECT_CONTAINER } from '../../store';
 import styles from './MenuListItem.module.css';
 import Tag from './Tag';
 import { patch } from '../../api/axios';
 import JSZip from "jszip";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 const MenuListItem = memo(({container}) => {
+
+  const navigate = useNavigate();
 
   const [name, setName] = useState(container.name);
   const [readOnly, setReadOnly] = useState(container.name.length > 0)
@@ -21,7 +24,8 @@ const MenuListItem = memo(({container}) => {
   }
 
   const onClickItem = () => {
-    
+    store.dispatch(SELECT_CONTAINER(container));
+    navigate("/detail");
   }
 
   const onChangeName = (e) => {

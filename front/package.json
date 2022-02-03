@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "aws-sdk": "^2.1061.0",
     "axios": "^0.24.0",
+    "crypto-js": "^4.1.1",
     "dotenv": "^14.2.0",
     "jszip": "^3.7.1",
     "react": "^17.0.2",
@@ -45,5 +46,5 @@
       "last 1 safari version"
     ]
   },
-  "homepage" : "./"
+  "homepage": "./"
 }

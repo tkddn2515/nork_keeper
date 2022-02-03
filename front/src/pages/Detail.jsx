@@ -1,39 +1,56 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styles from './Detail.module.css';
-import store, { SET_CONTAINERS_DIRECT, SET_TAGS } from '../store';
+import store, { SET_CONTAINERS_DIRECT, SET_TAGS, SELECT_CONTAINER } from '../store';
 import { useSelector } from "react-redux";
-import { patch } from '../api/axios';
+import { patch, post } from '../api/axios';
 import Tag from '../components/Main/Tag';
 import MainFooter from '../components/Main/MainFooter'
 import {useDropzone} from 'react-dropzone'
-import { useLocation } from "react-router-dom";
-function useQuery() {
-  const { search } = useLocation();
-  console.log("search", search);
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-}
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Detail = ({container}) => {
+import { encrypt, decrypt } from "../crypto";
 
-  let query = useQuery();
+// function useQuery() {
+//   const { search } = useLocation();
+//   return React.useMemo(() => new URLSearchParams(search), [search]);
+// }
 
-  container = {
-    id: 9,
-    mid: 1,
-    name: "adqs",
-    concept: "fuck",
-    thumb: "20220123003213_000.jpg",
-    imgs: ["20220123003213_000.jpg","20220123003213_001.jpg"],
-    tags: ["123","15","....................","bfszxc","lvjn","한상우","심예은","사랑해","끼얏호우"],
-    createtime: "2022-01-24 00:26:14"
-  };
+const Detail = () => {
+
+  const navigate = useNavigate();
+  const container = useSelector(state => state.selectContainer);
+  // let query = useQuery();
 
   const [plusTag, setPlusTag] = useState([]);
+  const [name, setName] = useState(container.name);
   const [concept, setConcept] = useState(container.concept);
   const selectTags = useSelector(state => state.containersSetting.tag);
+  const [selectImg, setSelectImg] = useState(container.thumb);
+  const conceptRef = useRef(null);
+
   useEffect(() => {
-    console.log("query", query.get("name"));
+    getContainer();
+
+    conceptRef.current.addEventListener('focusout', (event) => {
+      onEndEditConcept();
+    });
   }, [])
+
+  useEffect(()=>{
+    console.log("container", container.imgs);
+  }, [container.imgs])
+
+  const getContainer = () => {
+    const check = setTimeout(() => {
+      if(!container) {
+        navigate("/main");
+      }
+    }, 1000)
+    
+    return(() => {
+      clearTimeout(check);
+    })
+  }
 
   const getImagePath = (name, type) => {
     let arr = name.split(".");
@@ -89,6 +106,7 @@ const Detail = ({container}) => {
       const tags = store.getState().tags;
       if(!tags.includes(v)){
         store.dispatch(SET_TAGS([...tags, v]));
+        store.dispatch(SELECT_CONTAINER({...container, tags: newTags}));
       }
     }
   }
@@ -99,19 +117,47 @@ const Detail = ({container}) => {
     setPlusTag(newPlusTag);
   }
 
-  const [selectImg, setSelectImg] = useState(container.thumb);
 
   const onChangeConcept = (e) => {
     setConcept(e.target.value);
   }
 
+  const onClickImg = (v) => {
+    setSelectImg(v);
+  }
 
   const onDrop = useCallback(acceptedFiles => {
     console.log("acceptedFiles", acceptedFiles);
     if(acceptedFiles.length === 0) {
       return;
     }
+    uploadFiles(acceptedFiles);
   }, [])
+
+  const uploadFiles = useCallback(async (files) => {
+    const formData = new FormData();
+    formData.append("mid", store.getState().member.id);
+    files.forEach(v=> { formData.append("files", v)});
+    const res = await post("/detail/dropimage", formData);
+    let newContainer = null;
+    const containers = store.getState().containers.map(v => {
+      if (v.id === container.id) {
+        newContainer = {...v, imgs: v.imgs.concat(res)};
+        return newContainer;
+      } else{
+        return v;
+      }
+    });
+    console.log("container", newContainer.imgs);
+    const data = {
+      id: container.id,
+      imgs: newContainer.imgs
+    }
+    await patch("/container/imgs", data);
+    
+    store.dispatch(SET_CONTAINERS_DIRECT(containers));
+    store.dispatch(SELECT_CONTAINER(newContainer));
+  }, [container])
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
   
@@ -119,16 +165,28 @@ const Detail = ({container}) => {
     e.preventDefault();
   }
 
+  const onChangeName = (e) => {
+    setName(e.target.value);
+  }
+
+  const onEndEditConcept = () => {
+    const data = {
+      id: container.id,
+      concept: conceptRef.current.value
+    }
+    const res = patch("/container/concept", data);
+  }
+
   return (
     <>
       <div className={styles.container}>
         <div className={styles.toptime}>
-          <span className={styles.createtime}>2021-11-11</span>
+          <span className={styles.createtime}>{container.createtime.slice(0, 10)}</span>
           <img alt="" className={styles.download} />
         </div>
         <div className={styles.toptitle}>
           <div className={styles.line}></div>
-          <div className={styles.title}>방이샤브샤브 종암점 후기</div>
+          <input className={styles.title} value={name} onChange={onChangeName}/>
         </div>
         <div className={styles.mainImgContainer}>
           <img className={`${styles.mainImg_back} center`} src={getImagePath(selectImg, 0)} alt=''/>
@@ -150,15 +208,15 @@ const Detail = ({container}) => {
               CONCEPT
             </div>
             <div className={styles.concept}>
-              <textarea className={styles.conceptInput} placeholder='텍스트를 입력해주세요.' value={concept} onChange={onChangeConcept}> </textarea>
+              <textarea className={styles.conceptInput} placeholder='텍스트를 입력해주세요.' value={concept} onChange={onChangeConcept} ref={conceptRef} maxLength={60}> </textarea>
             </div>
           </div>
         </div>
         <div className={styles.imgs}>
           {container.imgs.map((v, idx) => 
-          <button className={`${styles.imgBtn} ${false && styles.imgSelect}`} key={idx}>
-            <img className={`${styles.mainImg_back} center`} src={getImagePath(v, 2)} alt=""/>
-            <img className={`${styles.mainImg} center`} src={getImagePath(v, 2)} alt=""/>
+          <button className={`${styles.imgBtn} ${selectImg === v && styles.imgSelect}`} key={idx} onClick={() => onClickImg(v)}>
+            <img className={`${styles.mainImg_back} center`} src={getImagePath(v, 1)} alt=""/>
+            <img className={`${styles.mainImg} center`} src={getImagePath(v, 1)} alt=""/>
           </button>)}
           <button className={styles.imgAdd}>
             <div className={styles.inputdiv} {...getRootProps()}>
